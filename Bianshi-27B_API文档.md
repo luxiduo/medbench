@@ -43,6 +43,7 @@ completion = client.chat.completions.create(
     max_tokens=32768,         # 【必填】必须设大，过小会截断长生成任务
     temperature=0.0,
     extra_body={'chat_template_kwargs': {'enable_thinking': True}},  # 【必填】必须开启深度思考
+    timeout=300,           # 深度思考+长生成单题可达 60s+，超时必须设足（300~400s），过短会超时失败
 )
 response = json.loads(completion.model_dump_json())
 print(response['choices'][0]['message']['content'])
@@ -94,5 +95,6 @@ curl https://model.a-eye.cn/v1/chat/completions \
 ## 可用性
 
 - 公网可访问，评测期间保持服务在线
-- 支持并发调用
-- 响应超时建议设为 300 秒以上（部分复杂推理题生成较长）
+- **单请求耗时**：开启深度思考后，单题约 24~60 秒（复杂长生成题可达 60s+）
+- **超时要求（重要）**：客户端**必须设足超时（建议 300~400 秒）**，过短会导致深度思考中的长生成任务超时失败。示例代码已设 `timeout=300`
+- **并发**：支持高并发调用（多卡部署），预计并发量可设 16~32

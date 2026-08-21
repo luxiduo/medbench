@@ -18,7 +18,7 @@ Bianshi-27B 是基于 Qwen3.6-27B 开源权重微调的医疗大语言模型，�
 在请求头中携带 API Key：
 
 ```
-Authorization: Bearer sk-你的_API_Key
+Authorization: Bearer 你的_API_KEY
 ```
 
 ## 调用示例（Python）
@@ -27,7 +27,7 @@ Authorization: Bearer sk-你的_API_Key
 import json
 from openai import OpenAI
 
-api_key = "sk-你的_API_Key"
+api_key = "你的_API_KEY"
 base_url = "https://model.a-eye.cn/v1"
 path = "Bianshi-27B"
 question = "你好"
@@ -53,7 +53,7 @@ print(response['choices'][0]['message']['content'])
 ```bash
 curl https://model.a-eye.cn/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer sk-你的_API_Key" \
+  -H "Authorization: Bearer 你的_API_KEY" \
   -d '{
     "model": "Bianshi-27B",
     "messages": [{"role": "user", "content": "你好"}],

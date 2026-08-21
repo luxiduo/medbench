@@ -37,7 +37,13 @@ client = OpenAI(
     base_url=base_url,
 )
 
-completion = client.chat.completions.create(model=path, messages=[{'role': 'user', 'content': question}])
+completion = client.chat.completions.create(
+    model=path,
+    messages=[{'role': 'user', 'content': question}],
+    max_tokens=8192,          # 评测含长文本生成任务（MedExplain/MedRecordGen等），需足够大避免截断
+    temperature=0.0,
+    extra_body={'chat_template_kwargs': {'enable_thinking': True}},  # 开启深度思考
+)
 response = json.loads(completion.model_dump_json())
 print(response['choices'][0]['message']['content'])
 ```
@@ -51,8 +57,9 @@ curl https://model.a-eye.cn/v1/chat/completions \
   -d '{
     "model": "Bianshi-27B",
     "messages": [{"role": "user", "content": "你好"}],
-    "max_tokens": 2048,
-    "temperature": 0.0
+    "max_tokens": 8192,
+    "temperature": 0.0,
+    "chat_template_kwargs": {"enable_thinking": true}
   }'
 ```
 
@@ -62,7 +69,8 @@ curl https://model.a-eye.cn/v1/chat/completions \
 |------|------|------|
 | `model` | string | 必填，模型 ID：`Bianshi-27B` |
 | `messages` | array | 必填，对话消息列表（`[{role, content}]`） |
-| `max_tokens` | integer | 选填，最大生成长度（默认 2048，最大 32768） |
+| `max_tokens` | integer | 选填，最大生成长度（建议 8192，最大 32768；评测含长文本生成任务，过小会截断） |
+| `chat_template_kwargs.enable_thinking` | boolean | 选填，是否开启深度思考（建议 `true`，提升复杂推理质量） |
 | `temperature` | float | 选填，采样温度（默认 0.0，范围 [0, 2]） |
 | `top_p` | float | 选填，核采样（默认 1.0） |
 

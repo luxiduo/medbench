@@ -1,6 +1,6 @@
 # Bianshi-27B-0908 API 调用文档
 
-Bianshi-27B-0908 是基于 Qwen3.6-27B 开源权重微调的医疗大语言模型，已部署为 OpenAI 兼容的 HTTP API 服务，供 MedBench 评测平台调用。
+Bianshi-27B-0908 是基于开源权重微调的医疗大语言模型，已部署为 OpenAI 兼容的 HTTP API 服务，供 MedBench 评测平台调用。
 
 ## 基本信息
 
